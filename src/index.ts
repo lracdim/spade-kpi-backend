@@ -7,12 +7,30 @@ import evaluationRoutes from './routes/evaluationRoutes';
 
 dotenv.config();
 
-console.log('--- BACKEND STARTING (v1.0.3) ---');
-console.log(`[env]: Environment = ${process.env.NODE_ENV || 'development'}`);
+console.log('***************************************');
+console.log('--- BACKEND IS NOW ALIVE (v1.0.6) ---');
+console.log('***************************************');
+console.log(`[env]: Environment = ${process.env.NODE_ENV || 'production'}`);
 console.log(`[env]: DB URL present = ${!!process.env.DATABASE_URL}`);
 console.log(`[env]: Port assigned = ${process.env.PORT || 'none'}`);
 
+// Immediate DB Connection Test
+import pool from './db';
+pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+        console.error('[db]: Connection test FAILED:', err.message);
+    } else {
+        console.log('[db]: Connection test SUCCESS at:', res.rows[0].now);
+    }
+});
+
 const app = express();
+
+// Request logging to see if Railway hits us
+app.use((req, res, next) => {
+    console.log(`[request]: ${req.method} ${req.url} from ${req.ip}`);
+    next();
+});
 const PORT = Number(process.env.PORT) || 5000;
 
 // Middleware (Fully permissive CORS for API without cookies)
