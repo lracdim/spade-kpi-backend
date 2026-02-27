@@ -37,7 +37,7 @@ const PORT = Number(process.env.PORT) || 5000;
 
 
 // Handle CORS preflight FIRST before anything else
-app.options('*', cors());
+app.options('/(.*)', cors());
 
 app.use(cors({
     origin: [
