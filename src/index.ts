@@ -28,9 +28,12 @@ app.get('/health', (req, res) => {
     res.json({ success: true, message: 'KPI TypeScript Backend (Vite/Drizzle) is running' });
 });
 
+// Start server only if not running in Vite dev mode
 if (!process.env.VITE) {
-    app.listen(PORT as number, '0.0.0.0', () => {
-        console.log(`[server]: Server is running at http://0.0.0.0:${PORT}`);
+    const server = app.listen(PORT, () => {
+        const address = server.address();
+        const bind = typeof address === 'string' ? `pipe ${address}` : `port ${address?.port}`;
+        console.log(`[server]: Backend is listening on ${bind} (0.0.0.0)`);
     });
 }
 
