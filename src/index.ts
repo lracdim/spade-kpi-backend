@@ -35,7 +35,11 @@ const PORT = Number(process.env.PORT) || 5000;
 
 // Middleware (Fully permissive CORS for API without cookies)
 app.use(cors({
-    origin: '*',
+    origin: [
+        'https://evaluation.spadesecurityservices.com',
+        'http://localhost:5173',
+        'http://localhost:5000'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
