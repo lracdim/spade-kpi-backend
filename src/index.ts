@@ -7,8 +7,13 @@ import evaluationRoutes from './routes/evaluationRoutes';
 
 dotenv.config();
 
+console.log('--- BACKEND STARTING (v1.0.3) ---');
+console.log(`[env]: Environment = ${process.env.NODE_ENV || 'development'}`);
+console.log(`[env]: DB URL present = ${!!process.env.DATABASE_URL}`);
+console.log(`[env]: Port assigned = ${process.env.PORT || 'none'}`);
+
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 // Middleware (Fully permissive CORS for API without cookies)
 app.use(cors({
