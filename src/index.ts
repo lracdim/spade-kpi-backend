@@ -8,7 +8,7 @@ import evaluationRoutes from './routes/evaluationRoutes';
 dotenv.config();
 
 console.log('***************************************');
-console.log('--- BACKEND IS NOW ALIVE (v1.0.6) ---');
+console.log('--- BACKEND IS NOW ALIVE (v1.0.7) ---');
 console.log('***************************************');
 console.log(`[env]: Environment = ${process.env.NODE_ENV || 'production'}`);
 console.log(`[env]: DB URL present = ${!!process.env.DATABASE_URL}`);
