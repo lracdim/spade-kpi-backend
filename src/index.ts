@@ -8,7 +8,7 @@ import evaluationRoutes from './routes/evaluationRoutes';
 dotenv.config();
 
 console.log('***************************************');
-console.log('--- BACKEND IS NOW ALIVE (v1.0.8) ---');
+console.log('--- BACKEND IS NOW ALIVE (v1.0.9) ---');
 console.log('***************************************');
 console.log(`[env]: Environment = ${process.env.NODE_ENV || 'production'}`);
 console.log(`[env]: DB URL present = ${!!process.env.DATABASE_URL}`);
@@ -38,16 +38,15 @@ const PORT = Number(process.env.PORT) || 5000;
 
 // Handle CORS preflight FIRST before anything else
 
-app.use(cors({
-    origin: [
-        'https://evaluation.spadesecurityservices.com',
-        'http://localhost:5173',
-        'http://localhost:5000'
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: true
-}));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://evaluation.spadesecurityservices.com');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    next();
+});
 app.use(express.json());
 
 // Routes
