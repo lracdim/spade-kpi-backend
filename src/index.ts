@@ -72,7 +72,7 @@ app.use((err: any, req: any, res: any, next: any) => {
 
 // Start server only if not running in Vite dev mode
 if (!process.env.VITE) {
-    const server = app.listen(PORT, () => {
+   const server = app.listen(PORT, '0.0.0.0', () => {
         const address = server.address();
         const bind = typeof address === 'string' ? `pipe ${address}` : `port ${address?.port}`;
         console.log(`[server]: Backend is listening on ${bind} (0.0.0.0)`);
