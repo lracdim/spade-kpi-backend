@@ -23,7 +23,19 @@ export const getAllEvaluations = async (req: Request, res: Response) => {
         }
 
         const result = await query.orderBy(desc(evaluations.createdAt));
-        res.json({ success: true, data: result });
+        const formatted = result.map(e => ({
+            id: e.id,
+            client_id: e.clientId,
+            guard_id: e.guardId,
+            kpi_scores: e.kpiScores,
+            total_score: e.totalScore,
+            editable_until: e.editableUntil,
+            remarks: e.remarks,
+            evaluated_by: e.evaluatedBy,
+            created_at: e.createdAt,
+            updated_at: e.updatedAt
+        }));
+        res.json({ success: true, data: formatted });
     } catch (err: any) {
         res.status(500).json({ success: false, message: err.message });
     }
@@ -36,7 +48,22 @@ export const getEvaluationById = async (req: Request, res: Response) => {
         if (result.length === 0) {
             return res.status(404).json({ success: false, message: 'Evaluation not found' });
         }
-        res.json({ success: true, data: result[0] });
+        const e = result[0];
+        res.json({
+            success: true,
+            data: {
+                id: e.id,
+                client_id: e.clientId,
+                guard_id: e.guardId,
+                kpi_scores: e.kpiScores,
+                total_score: e.totalScore,
+                editable_until: e.editableUntil,
+                remarks: e.remarks,
+                evaluated_by: e.evaluatedBy,
+                created_at: e.createdAt,
+                updated_at: e.updatedAt
+            }
+        });
     } catch (err: any) {
         res.status(500).json({ success: false, message: err.message });
     }
