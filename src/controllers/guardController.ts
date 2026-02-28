@@ -6,7 +6,14 @@ import { eq, desc } from 'drizzle-orm';
 export const getAllGuards = async (req: Request, res: Response) => {
     try {
         const result = await db.select().from(guards).orderBy(desc(guards.createdAt));
-        res.json({ success: true, data: result });
+        const formatted = result.map(g => ({
+            id: g.id,
+            name: g.name,
+            guard_id: g.guardId,
+            created_at: g.createdAt,
+            updated_at: g.updatedAt
+        }));
+        res.json({ success: true, data: formatted });
     } catch (err: any) {
         res.status(500).json({ success: false, message: err.message });
     }
@@ -19,7 +26,17 @@ export const getGuardById = async (req: Request, res: Response) => {
         if (result.length === 0) {
             return res.status(404).json({ success: false, message: 'Guard not found' });
         }
-        res.json({ success: true, data: result[0] });
+        const g = result[0];
+        res.json({
+            success: true,
+            data: {
+                id: g.id,
+                name: g.name,
+                guard_id: g.guardId,
+                created_at: g.createdAt,
+                updated_at: g.updatedAt
+            }
+        });
     } catch (err: any) {
         res.status(500).json({ success: false, message: err.message });
     }
